@@ -41,7 +41,7 @@ src/
 ### Key Design Decisions
 
 - **SettingsPanel separation**: The gear button and panel container (`SettingsPanel.vue`) are decoupled from content (`ReleaseSorterSettings.vue`). To add a new settings section, just insert another component inside `<SettingsPanel>`.
-- **Release sorter lives outside Vue**: `initReleaseSorter()` runs before `createApp().mount()` and operates on raw DOM via `sortAndHighlight()`. Vue components call `sortAndHighlight()` after user changes preferences.
+- **Release sorter lives outside Vue**: `initReleaseSorter()` runs before `createApp().mount()` and operates on raw DOM via `sortAndHighlight()`. Vue components call `sortAndHighlight()` after user changes preferences. GitHub uses Turbo for SPA navigation, so `initReleaseSorter()` listens to both `turbo:load` events and a `MutationObserver` on `document.body` to re-run sorting when the page changes.
 - **GM grants**: `GM_addStyle`, `GM_getValue`, `GM_setValue` — declared in `vite.config.ts` userscript config.
 
 ### Release Sorter Data Flow
