@@ -1,11 +1,25 @@
-# Vue 3 + TypeScript + Vite
+# Better GitHub
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+一个提升 GitHub 浏览体验的用户脚本，基于 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey) + Vue 3 + TypeScript 构建。
 
-## Recommended IDE Setup
+## 功能
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **返回顶部** — 圆形按钮，外围带有圆环形进度条，实时显示滚动进度，点击后平滑滚动到顶部。
 
-## Type Support For `.vue` Imports in TS
+## 开发
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```bash
+# 安装依赖
+pnpm install
+
+# 启动开发服务器（自动注入用户脚本到浏览器）
+pnpm dev
+
+# 构建生产版本
+pnpm build
+```
+
+## 安装
+
+1. 安装用户脚本管理器，如 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)。
+2. 构建脚本（`pnpm build`），然后在管理器中安装 `dist/better-github.user.js`。
