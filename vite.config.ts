@@ -9,6 +9,8 @@ export default defineConfig({
 		monkey({
 			entry: "src/main.ts",
 			userscript: {
+				name: "Better Github",
+				description: "一个提升 GitHub 浏览体验的用户脚本",
 				icon: "https://vitejs.dev/logo.svg",
 				namespace: "npm/vite-plugin-monkey",
 				match: ["https://github.com/*"],
