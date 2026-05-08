@@ -1,4 +1,10 @@
 # Better GitHub
+<p>
+    <a href="https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js">
+        <img src="https://img.shields.io/badge/GithubRaw-安装-black" alt="从 Github 安装"></a>
+    <a href="https://greasyfork.org/zh-CN/scripts/577175">
+        <img src="https://img.shields.io/badge/GreasyFork-安装-red" alt="从 GreasyFork 安装"></a>
+</p>
 
 一个提升 GitHub 浏览体验的用户脚本，基于 [vite-plugin-monkey](https://github.com/lisonge/vite-plugin-monkey) + Vue 3 + TypeScript 构建。
 
@@ -38,8 +44,3 @@ src/
 └── utils/
     └── release-sorter.ts            # 排序/高亮核心逻辑与存储
 ```
-
-## 安装
-
-1. 安装用户脚本管理器，如 [Tampermonkey](https://www.tampermonkey.net/) 或 [Violentmonkey](https://violentmonkey.github.io/)。
-2. 构建脚本（`pnpm build`），然后在管理器中安装 `dist/better-github.user.js`。
