@@ -43,8 +43,8 @@ onUnmounted(() => {
 <style scoped>
 .sp-settings {
   position: fixed;
-  bottom: 32px;
-  left: 32px;
+  bottom: 88px;
+  right: 32px;
   z-index: 9998;
 }
 
@@ -75,7 +75,7 @@ onUnmounted(() => {
 .sp-panel {
   position: absolute;
   bottom: 56px;
-  left: 0;
+  right: 0;
   width: 280px;
   max-height: calc(100vh - 140px);
   overflow-y: auto;
