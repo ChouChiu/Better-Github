@@ -12,6 +12,7 @@ export default defineConfig({
 				icon: "https://vitejs.dev/logo.svg",
 				namespace: "npm/vite-plugin-monkey",
 				match: ["https://github.com/*"],
+				grant: ["GM_addStyle", "GM_getValue", "GM_setValue"],
 			},
 			build: {
 				externalGlobals: {
