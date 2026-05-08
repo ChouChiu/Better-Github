@@ -11,7 +11,7 @@ export default defineConfig({
 			userscript: {
 				name: "Better Github",
 				description: "一个提升 GitHub 浏览体验的用户脚本",
-				icon: "https://vitejs.dev/logo.svg",
+				icon: "https://github.com/favicon.ico",
 				namespace: "npm/vite-plugin-monkey",
 				match: ["https://github.com/*"],
 				grant: ["GM_addStyle", "GM_getValue", "GM_setValue"],

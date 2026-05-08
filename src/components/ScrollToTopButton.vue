@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed } from "vue";
 
+const CIRCUMFERENCE = 2 * Math.PI * 18;
+
 const scrollTop = ref(0);
 const scrollHeight = ref(0);
 const clientHeight = ref(0);
@@ -12,15 +14,21 @@ const progress = computed(() => {
 	return (scrollTop.value / (scrollHeight.value - clientHeight.value)) * 100;
 });
 
-const circumference = 2 * Math.PI * 18;
 const strokeDashoffset = computed(() => {
-	return circumference - (progress.value / 100) * circumference;
+	return CIRCUMFERENCE - (progress.value / 100) * CIRCUMFERENCE;
 });
 
+let ticking = false;
+
 function onScroll() {
-	scrollTop.value = document.documentElement.scrollTop;
-	scrollHeight.value = document.documentElement.scrollHeight;
-	clientHeight.value = document.documentElement.clientHeight;
+	if (ticking) return;
+	ticking = true;
+	requestAnimationFrame(() => {
+		scrollTop.value = document.documentElement.scrollTop;
+		scrollHeight.value = document.documentElement.scrollHeight;
+		clientHeight.value = document.documentElement.clientHeight;
+		ticking = false;
+	});
 }
 
 function scrollToTop() {
@@ -61,7 +69,7 @@ onUnmounted(() => {
           r="18"
           cx="22"
           cy="22"
-          :stroke-dasharray="circumference"
+          :stroke-dasharray="CIRCUMFERENCE"
           :stroke-dashoffset="strokeDashoffset"
         />
       </svg>

@@ -120,8 +120,16 @@ export function detectArch(): Exclude<ArchOption, "auto"> {
 	const ua = navigator.userAgent.toLowerCase();
 	if (/arm64|aarch64/.test(ua)) return "arm64";
 	if (/arm/.test(ua)) return "arm";
-	if (/x86/.test(ua) || /i386|i686/.test(ua)) return "x86";
+	if (/x86(?!_64)/.test(ua) || /i386|i686/.test(ua)) return "x86";
 	return "x64";
+}
+
+function resolveOs(os: OsOption): Exclude<OsOption, "auto"> {
+	return os === "auto" ? detectPlatform() : os;
+}
+
+function resolveArch(arch: ArchOption): Exclude<ArchOption, "auto"> {
+	return arch === "auto" ? detectArch() : arch;
 }
 
 export function getSelectedArch(): ArchOption {
@@ -144,15 +152,22 @@ export function setSelectedPkg(pkg: PkgOption): void {
 	GM_setValue(PKG_STORAGE_KEY, pkg);
 }
 
+let keywordCache: Set<string> | null = null;
+let keywordCacheKey = "";
+
+const regexCache = new Map<string, RegExp>();
+
 function buildMatchKeywords(): Set<string> {
 	const os = getSelectedOs();
 	const arch = getSelectedArch();
 	const pkg = getSelectedPkg();
+	const cacheKey = `${os}:${arch}:${pkg}`;
+	if (keywordCache && keywordCacheKey === cacheKey) return keywordCache;
 
-	const resolvedOs = os === "auto" ? detectPlatform() : os;
+	const resolvedOs = resolveOs(os);
 	const keywords = new Set(SYSTEM_KEYWORDS[resolvedOs]);
 
-	const resolvedArch = arch === "auto" ? detectArch() : arch;
+	const resolvedArch = resolveArch(arch);
 	for (const kw of ARCH_KEYWORDS[resolvedArch]) {
 		keywords.add(kw);
 	}
@@ -163,6 +178,8 @@ function buildMatchKeywords(): Set<string> {
 		for (const kw of PKG_KEYWORDS.portable[resolvedOs]) keywords.add(kw);
 	}
 
+	keywordCache = keywords;
+	keywordCacheKey = cacheKey;
 	return keywords;
 }
 
@@ -171,15 +188,15 @@ export function getKeywordsPreview(
 	arch: ArchOption,
 	pkg: PkgOption,
 ): string[] {
-	const resolvedOs = os === "auto" ? detectPlatform() : os;
-	const resolvedArch = arch === "auto" ? detectArch() : arch;
+	const resolvedOs = resolveOs(os);
+	const resolvedArch = resolveArch(arch);
 
 	const result = [
 		...SYSTEM_KEYWORDS[resolvedOs],
 		...ARCH_KEYWORDS[resolvedArch],
+		...PKG_KEYWORDS.installer[resolvedOs],
 	];
 
-	result.push(...PKG_KEYWORDS.installer[resolvedOs]);
 	if (pkg === "all") {
 		result.push(...PKG_KEYWORDS.portable[resolvedOs]);
 	} else {
@@ -211,9 +228,12 @@ function extractFilename(anchor: HTMLAnchorElement): string | null {
 function countMatches(filename: string, keywords: Set<string>): number {
 	let count = 0;
 	for (const keyword of keywords) {
-		if (new RegExp(`(^|[^a-z0-9])${keyword}([^a-z0-9]|$)`).test(filename)) {
-			count++;
+		let re = regexCache.get(keyword);
+		if (!re) {
+			re = new RegExp(`(^|[^a-z0-9])${keyword}([^a-z0-9]|$)`);
+			regexCache.set(keyword, re);
 		}
+		if (re.test(filename)) count++;
 	}
 	return count;
 }

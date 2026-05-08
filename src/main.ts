@@ -5,10 +5,6 @@ import { initReleaseSorter } from "./utils/release-sorter";
 
 initReleaseSorter();
 
-createApp(App).mount(
-	(() => {
-		const app = document.createElement("div");
-		document.body.append(app);
-		return app;
-	})(),
-);
+const app = document.createElement("div");
+document.body.append(app);
+createApp(App).mount(app);

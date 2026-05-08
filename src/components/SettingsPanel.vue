@@ -4,22 +4,33 @@ import { isReleasePage } from "../utils/release-sorter";
 
 const open = ref(false);
 const onReleasePage = ref(isReleasePage());
+const settingsRef = ref<HTMLElement>();
 
-let checkInterval: ReturnType<typeof setInterval>;
+function checkPage() {
+	onReleasePage.value = isReleasePage();
+}
+
+function onClickOutside(e: MouseEvent) {
+	if (open.value && settingsRef.value && !settingsRef.value.contains(e.target as Node)) {
+		open.value = false;
+	}
+}
 
 onMounted(() => {
-	checkInterval = setInterval(() => {
-		onReleasePage.value = isReleasePage();
-	}, 1000);
+	document.addEventListener("turbo:load", checkPage);
+	window.addEventListener("popstate", checkPage);
+	document.addEventListener("click", onClickOutside);
 });
 
 onUnmounted(() => {
-	clearInterval(checkInterval);
+	document.removeEventListener("turbo:load", checkPage);
+	window.removeEventListener("popstate", checkPage);
+	document.removeEventListener("click", onClickOutside);
 });
 </script>
 
 <template>
-  <div v-if="onReleasePage" class="sp-settings">
+  <div v-if="onReleasePage" ref="settingsRef" class="sp-settings">
     <Transition name="sp-panel">
       <div v-if="open" class="sp-panel" @wheel.stop>
         <slot />
