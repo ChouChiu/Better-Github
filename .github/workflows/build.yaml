@@ -1,0 +1,40 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+    
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v6
+              with:
+               version: 10
+            
+            - name: Setup Node
+              uses: actions/setup-node@v6
+              with:
+               node-version: 24'
+               cache: 'pnpm'
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Build
+              run: pnpm build
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v7
+              with:
+               path: "dist/*.js"
+               archive: false
+            
+            
