@@ -13,6 +13,9 @@ export default defineConfig({
 				namespace: "npm/vite-plugin-monkey",
 				match: ["https://github.com/*"],
 				grant: ["GM_addStyle", "GM_getValue", "GM_setValue"],
+				license: "GPL-3.0-or-later",
+				homepageURL: "https://github.com/ChouChiu/Better-Github",
+				supportURL: "https://github.com/ChouChiu/Better-Github/issues",
 			},
 			build: {
 				externalGlobals: {
