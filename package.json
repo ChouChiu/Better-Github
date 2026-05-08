@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "1.0.0",
 	"author": "ChouChiu",
+	"license": "GPL-3.0-only",
 	"description": "A userscript to enhance GitHub's user experience.",
 	"type": "module",
 	"scripts": {
