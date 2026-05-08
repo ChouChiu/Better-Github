@@ -5,6 +5,10 @@
 	"author": "ChouChiu",
 	"license": "GPL-3.0-only",
 	"description": "A userscript to enhance GitHub's user experience.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ChouChiu/Better-Github.git"
+	},
 	"type": "module",
 	"scripts": {
 		"dev": "vite",

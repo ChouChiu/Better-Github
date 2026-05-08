@@ -25,11 +25,31 @@ No test framework is configured.
 
 ## Architecture
 
-- `src/main.ts` — Entry point. Creates a `<div>`, appends it to `document.body`, mounts the Vue app.
-- `src/App.vue` — Root component, renders feature components.
-- `src/components/` — Feature components (e.g., `ScrollToTopButton.vue`).
-- `src/style.css` — Minimal global reset (`#app { all: unset }` to avoid GitHub style conflicts).
-- `vite.config.ts` — Vite + Vue plugin + monkey plugin config. Vue is externalized via `cdn.jsdelivr`.
+```
+src/
+├── main.ts                          # Entry point. Calls initReleaseSorter(), creates <div>, mounts Vue.
+├── App.vue                          # Root component. Renders ScrollToTopButton + SettingsPanel > ReleaseSorterSettings.
+├── style.css                        # Global reset (#app { all: unset }) + .better-gh-matched highlight style.
+├── components/
+│   ├── ScrollToTopButton.vue        # Fixed bottom-right scroll-to-top button with progress ring.
+│   ├── SettingsPanel.vue            # Reusable fixed bottom-left gear button + slide-up panel. Uses <slot> for content. Only visible on release pages.
+│   └── ReleaseSorterSettings.vue    # Release sorter config UI: System / Architecture / Package Type radio groups + keyword preview.
+└── utils/
+    └── release-sorter.ts            # Core logic: keyword matching, storage (GM_getValue/setValue), DOM sorting/highlighting, platform detection.
+```
+
+### Key Design Decisions
+
+- **SettingsPanel separation**: The gear button and panel container (`SettingsPanel.vue`) are decoupled from content (`ReleaseSorterSettings.vue`). To add a new settings section, just insert another component inside `<SettingsPanel>`.
+- **Release sorter lives outside Vue**: `initReleaseSorter()` runs before `createApp().mount()` and operates on raw DOM via `sortAndHighlight()`. Vue components call `sortAndHighlight()` after user changes preferences.
+- **GM grants**: `GM_addStyle`, `GM_getValue`, `GM_setValue` — declared in `vite.config.ts` userscript config.
+
+### Release Sorter Data Flow
+
+1. User selects preferences via `ReleaseSorterSettings.vue` (radio buttons for OS / Arch / Package Type).
+2. `setSelectedOs()` / `setSelectedArch()` / `setSelectedPkg()` persist to GM storage.
+3. `sortAndHighlight()` rebuilds keyword set from stored preferences, queries `<a href*="/releases/download/">`, scores each `<li>`, reorders DOM, adds `.better-gh-matched` class to top-scoring items.
+4. Keyword building merges: `SYSTEM_KEYWORDS[os]` ∪ `ARCH_KEYWORDS[arch]` ∪ `PKG_KEYWORDS[pkg][os]`. Package keywords are per-OS (e.g., `deb` only appears for Linux).
 
 ## Conventions
 
