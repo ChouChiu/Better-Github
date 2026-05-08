@@ -16,6 +16,8 @@ export default defineConfig({
 				license: "GPL-3.0-or-later",
 				homepageURL: "https://github.com/ChouChiu/Better-Github",
 				supportURL: "https://github.com/ChouChiu/Better-Github/issues",
+				downloadURL: "https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
+  				updateURL: "https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
 			},
 			build: {
 				externalGlobals: {
