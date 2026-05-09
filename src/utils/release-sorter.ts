@@ -69,9 +69,9 @@ const PKG_KEYWORDS: Record<
 	Record<Exclude<OsOption, "auto">, string[]>
 > = {
 	installer: {
-		windows: ["exe", "msi", "msix"],
-		macos: ["dmg", "pkg"],
-		linux: ["deb", "rpm"],
+		windows: ["exe", "msi", "msix"， "setup"],
+		macos: ["dmg", "pkg", "setup"],
+		linux: ["deb", "rpm", "setup"],
 		android: ["apk"],
 		ios: ["ipa"],
 	},
