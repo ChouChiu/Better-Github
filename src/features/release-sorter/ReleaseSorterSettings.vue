@@ -1,64 +1,27 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
 import {
-	OS_OPTIONS,
-	OS_LABELS,
-	ARCH_OPTIONS,
 	ARCH_LABELS,
-	PKG_OPTIONS,
-	PKG_LABELS,
-	type OsOption,
-	type ArchOption,
-	type PkgOption,
-	getSelectedOs,
-	setSelectedOs,
-	getSelectedArch,
-	setSelectedArch,
-	getSelectedPkg,
-	setSelectedPkg,
-	detectPlatform,
+	ARCH_OPTIONS,
 	detectArch,
-	sortAndHighlight,
-	getKeywordsPreview,
-} from "../utils/release-sorter";
+	detectPlatform,
+	OS_LABELS,
+	OS_OPTIONS,
+	PKG_LABELS,
+	PKG_OPTIONS,
+	useReleaseSorter,
+} from "./composable";
 
-const selectedOs = ref<OsOption>(getSelectedOs());
-const selectedArch = ref<ArchOption>(getSelectedArch());
-const selectedPkg = ref<PkgOption>(getSelectedPkg());
-
-const resolvedPlatform = computed(() => {
-	return selectedOs.value === "auto" ? detectPlatform() : selectedOs.value;
-});
-
-const resolvedArch = computed(() => {
-	return selectedArch.value === "auto" ? detectArch() : selectedArch.value;
-});
-
-const keywords = computed(() => {
-	return getKeywordsPreview(
-		selectedOs.value,
-		selectedArch.value,
-		selectedPkg.value,
-	);
-});
-
-function selectOs(os: OsOption) {
-	selectedOs.value = os;
-	setSelectedOs(os);
-	sortAndHighlight();
-}
-
-function selectArch(arch: ArchOption) {
-	selectedArch.value = arch;
-	setSelectedArch(arch);
-	sortAndHighlight();
-}
-
-function selectPkg(pkg: PkgOption) {
-	selectedPkg.value = pkg;
-	setSelectedPkg(pkg);
-	sortAndHighlight();
-}
+const {
+	selectedOs,
+	selectedArch,
+	selectedPkg,
+	resolvedPlatform,
+	resolvedArch,
+	keywords,
+	selectOs,
+	selectArch,
+	selectPkg,
+} = useReleaseSorter();
 </script>
 
 <template>

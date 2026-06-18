@@ -16,9 +16,31 @@ No test framework. Run `bun run lint` and `bun run build` (includes type-check) 
 - **Package manager**: bun (lockfile: `bun.lock`). There is also a `pnpm-lock.yaml` — ignore it.
 - **Vue is external**: bundled via CDN (`vue.global.prod.js`), not in the output JS. Do not add Vue to the build bundle.
 - **Userscript grants**: `GM_addStyle`, `GM_getValue`, `GM_setValue` — declared in `vite.config.ts`. These are the only GM APIs available.
-- **Release sorter is DOM-based**: `initReleaseSorter()` in `src/utils/release-sorter.ts` runs before Vue mounts and operates on raw DOM. Vue components call `sortAndHighlight()` to trigger re-sorting after preference changes.
+- **Release sorter is DOM-based**: `initReleaseSorter()` in `src/features/release-sorter/core.ts` runs before Vue mounts and operates on raw DOM. Vue components call `sortAndHighlight()` to trigger re-sorting after preference changes.
 - **GitHub Turbo navigation**: The script listens to `turbo:load` events and uses a `MutationObserver` on `document.body` to re-run sorting on SPA navigation. Both use 100ms debounce.
 - **Biome overrides for `.vue` files**: `noUnusedVariables` and `noUnusedImports` are disabled for Vue SFCs (Biome can't parse Vue templates properly).
+
+## Project Structure
+
+```
+src/
+├── features/
+│   ├── scroll-to-top/
+│   │   └── ScrollToTopButton.vue
+│   └── release-sorter/
+│       ├── ReleaseSorterSettings.vue
+│       ├── core.ts              # DOM manipulation, sorting logic
+│       ├── composable.ts        # Vue-facing exports, types, constants
+│       └── index.ts             # Public API barrel export
+├── shared/
+│   ├── components/
+│   │   └── SettingsPanel.vue
+│   └── styles/
+│       └── global.css
+├── App.vue
+├── main.ts
+└── vite-env.d.ts
+```
 
 ## Code style
 

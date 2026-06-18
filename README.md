@@ -17,30 +17,39 @@
 
 ```bash
 # 安装依赖
-pnpm install
+bun install
 
 # 启动开发服务器（自动注入用户脚本到浏览器）
-pnpm dev
+bun dev
 
-# 构建生产版本
-pnpm build
+# 构建生产版本（含类型检查）
+bun run build
 
-# 代码检查 & 格式化
-pnpm lint
-pnpm format
+# 代码检查
+bun run lint
+
+# 代码格式化
+bun run format
 ```
 
 ## 项目结构
 
 ```
 src/
-├── main.ts                          # 入口，初始化 release sorter 并挂载 Vue
-├── App.vue                          # 根组件
-├── style.css                        # 全局样式 + 高亮样式
-├── components/
-│   ├── ScrollToTopButton.vue        # 返回顶部按钮
-│   ├── SettingsPanel.vue            # 通用设置面板（齿轮按钮 + 弹出面板容器）
-│   └── ReleaseSorterSettings.vue    # Release 排序设置内容
-└── utils/
-    └── release-sorter.ts            # 排序/高亮核心逻辑与存储
+├── main.ts                              # 入口，初始化 release sorter 并挂载 Vue
+├── App.vue                              # 根组件
+├── vite-env.d.ts                        # Vite 类型声明
+├── features/
+│   ├── scroll-to-top/
+│   │   └── ScrollToTopButton.vue        # 返回顶部按钮（含滚动进度环）
+│   └── release-sorter/
+│       ├── ReleaseSorterSettings.vue    # Release 排序设置 UI
+│       ├── core.ts                      # DOM 操作、排序逻辑、存储
+│       ├── composable.ts                # Vue composable 及类型导出
+│       └── index.ts                     # 公共 API 导出
+└── shared/
+    ├── components/
+    │   └── SettingsPanel.vue            # 通用设置面板（齿轮按钮 + 弹出容器）
+    └── styles/
+        └── global.css                   # 全局样式 + 高亮样式
 ```

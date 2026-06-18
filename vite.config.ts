@@ -1,5 +1,5 @@
-import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import { defineConfig } from "vite";
 import monkey, { cdn } from "vite-plugin-monkey";
 
 // https://vitejs.dev/config/
@@ -18,8 +18,10 @@ export default defineConfig({
 				license: "GPL-3.0-or-later",
 				homepageURL: "https://github.com/ChouChiu/Better-Github",
 				supportURL: "https://github.com/ChouChiu/Better-Github/issues",
-				downloadURL: "https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
-  				updateURL: "https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
+				downloadURL:
+					"https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
+				updateURL:
+					"https://github.com/ChouChiu/Better-Github/releases/latest/download/better-github.user.js",
 			},
 			build: {
 				externalGlobals: {

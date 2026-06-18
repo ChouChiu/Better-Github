@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import ScrollToTopButton from "./components/ScrollToTopButton.vue";
-import SettingsPanel from "./components/SettingsPanel.vue";
-import ReleaseSorterSettings from "./components/ReleaseSorterSettings.vue";
+import ReleaseSorterSettings from "./features/release-sorter/ReleaseSorterSettings.vue";
+import ScrollToTopButton from "./features/scroll-to-top/ScrollToTopButton.vue";
+import SettingsPanel from "./shared/components/SettingsPanel.vue";
 </script>
 
 <template>

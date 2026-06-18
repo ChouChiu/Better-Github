@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const CIRCUMFERENCE = 2 * Math.PI * 18;
 

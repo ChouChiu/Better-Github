@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import { isReleasePage } from "../utils/release-sorter";
+import { onMounted, onUnmounted, ref } from "vue";
+import { isReleasePage } from "../../features/release-sorter/core";
 
 const open = ref(false);
 const onReleasePage = ref(isReleasePage());
@@ -11,7 +11,11 @@ function checkPage() {
 }
 
 function onClickOutside(e: MouseEvent) {
-	if (open.value && settingsRef.value && !settingsRef.value.contains(e.target as Node)) {
+	if (
+		open.value &&
+		settingsRef.value &&
+		!settingsRef.value.contains(e.target as Node)
+	) {
 		open.value = false;
 	}
 }
